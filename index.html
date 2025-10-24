@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mother Creations — Joyful Ideas for Moms & Kids</title>
+  <meta name="description" content="Mother Creations: fun activities for moms and kids, motherly nuggets of wisdom, Joyschool lessons, and a cheerful blog." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#fffefd;
+      --ink:#2b2b2b;
+      --muted:#6b7280;
+      --bubble-1:#FFEDD5; /* peach */
+      --bubble-2:#DBEAFE; /* baby blue */
+      --bubble-3:#FDE68A; /* soft yellow */
+      --bubble-4:#E9D5FF; /* lilac */
+      --brand:#FF7AA2;   /* happy pink */
+      --brand-2:#4F46E5; /* indigo */
+      --accent:#34D399;  /* mint */
+      --card:#ffffff;
+      --shadow:0 15px 30px rgba(0,0,0,.06), 0 6px 10px rgba(0,0,0,.04);
+      --radius:22px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+      color:var(--ink);
+      background:var(--bg);
+    }
+    /* Soft bubbly background */
+    .bg-bubbles{
+      position:fixed; inset:0; z-index:-1; overflow:hidden; pointer-events:none;
+      background: radial-gradient(1200px 1200px at -10% -10%, var(--bubble-2), transparent 60%),
+                  radial-gradient(1000px 800px at 110% 10%, var(--bubble-1), transparent 55%),
+                  radial-gradient(900px 900px at 10% 110%, var(--bubble-3), transparent 55%),
+                  radial-gradient(1100px 900px at 95% 95%, var(--bubble-4), transparent 55%);
+      filter:saturate(105%);
+    }
+
+    /* Header / Nav */
+    header{
+      position:sticky; top:0; z-index:50; backdrop-filter:saturate(150%) blur(6px);
+      background:rgba(255,255,255,.7); border-bottom:1px solid rgba(0,0,0,.04);
+    }
+    .nav{
+      max-width:1200px; margin:0 auto; padding:14px 20px; display:flex; align-items:center; gap:18px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:12px; text-decoration:none; color:var(--ink);
+    }
+    .brand-logo{
+      width:44px; height:44px; border-radius:16px;
+      background:linear-gradient(135deg, var(--brand), var(--accent));
+      box-shadow: var(--shadow);
+      display:grid; place-items:center; font-family:"Baloo 2", cursive; font-weight:700; color:white; font-size:22px;
+    }
+    .brand-title{font-family:"Baloo 2", cursive; font-size:22px; line-height:1; letter-spacing:.3px}
+
+    .menu{margin-left:auto; display:flex; gap:6px; flex-wrap:wrap}
+    .menu > .item{
+      position:relative;
+    }
+    .menu a,
+    .menu button{
+      appearance:none; border:0; background:transparent; cursor:pointer; padding:10px 12px; border-radius:14px; font-weight:600;
+      color:var(--ink); text-decoration:none;
+    }
+    .menu .item:hover > a,
+    .menu .item:hover > button{background:rgba(0,0,0,.05)}
+
+    .dropdown{position:absolute; top:100%; left:0; min-width:280px; padding:10px; display:none;
+      background:var(--card); box-shadow:var(--shadow); border-radius:16px; border:1px solid rgba(0,0,0,.06)
+    }
+    .item:focus-within .dropdown,
+    .item:hover .dropdown{display:block}
+    .dropdown a{display:block; padding:10px 12px; border-radius:12px; color:var(--ink)}
+    .dropdown a:hover{background:rgba(0,0,0,.05)}
+
+    /* Layout */
+    main{max-width:1200px; margin:0 auto; padding:28px 20px 80px}
+
+    .hero{display:grid; grid-template-columns:1.3fr 1fr; gap:24px; align-items:center; margin-top:20px}
+    .hero-card{
+      background:var(--card); border-radius:var(--radius); box-shadow:var(--shadow);
+      padding:28px; border:1px solid rgba(0,0,0,.05)
+    }
+    .hero h1{font-family:"Baloo 2"; font-size:42px; margin:0 0 10px}
+    .hero p{color:var(--muted); font-size:18px; margin:0 0 18px}
+    .cta{display:inline-flex; gap:10px; align-items:center; padding:12px 16px; border-radius:14px; font-weight:700; text-decoration:none; color:white;
+      background:linear-gradient(135deg, var(--brand-2), var(--brand)); box-shadow:var(--shadow)
+    }
+    .stats{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:14px}
+    .stat{background:var(--bubble-2); border-radius:16px; padding:14px; text-align:center; font-weight:700}
+
+    .section{margin-top:40px}
+    .section h2{font-family:"Baloo 2"; font-size:28px; margin:0 0 14px}
+    .grid{display:grid; grid-template-columns:repeat(3,1fr); gap:16px}
+    .card{background:var(--card); border-radius:var(--radius); box-shadow:var(--shadow); border:1px solid rgba(0,0,0,.06); overflow:hidden}
+    .card .thumb{height:140px; background:linear-gradient(135deg, var(--bubble-1), var(--bubble-4))}
+    .card .body{padding:16px}
+    .chip{display:inline-block; padding:6px 10px; border-radius:999px; background:rgba(79,70,229,.08); color:var(--brand-2); font-weight:700; font-size:12px}
+
+    .blog-list{display:grid; grid-template-columns:repeat(2,1fr); gap:16px}
+
+    /* Post page */
+    .prose{line-height:1.7}
+    .prose h1{font-family:"Baloo 2"; font-size:36px; margin:.3em 0}
+    .prose h2{font-size:22px; margin:1.1em 0 .4em}
+    .prose p{margin:.6em 0}
+    .prose ul{padding-left:1.2em}
+    .pill{display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:999px; background:rgba(255,122,162,.1); color:var(--brand); font-weight:700; font-size:12px}
+
+    footer{margin-top:40px; padding:30px 20px; border-top:1px solid rgba(0,0,0,.06); background:rgba(255,255,255,.7)}
+    .footer-inner{max-width:1200px; margin:0 auto; display:flex; flex-wrap:wrap; gap:16px; align-items:center; justify-content:space-between}
+
+    /* Responsive */
+    @media (max-width: 960px){
+      .hero{grid-template-columns:1fr;}
+      .stats{grid-template-columns:repeat(3,1fr)}
+      .grid{grid-template-columns:repeat(2,1fr)}
+      .blog-list{grid-template-columns:1fr}
+    }
+    @media (max-width: 640px){
+      .grid{grid-template-columns:1fr}
+      .nav{gap:10px}
+      .brand-title{font-size:20px}
+      .menu a, .menu button{padding:8px 10px}
+    }
+
+    /* Simple focus outline for a11y */
+    :focus{outline:3px solid rgba(79,70,229,.45); outline-offset:2px}
+  </style>
+</head>
+<body>
+  <div class="bg-bubbles" aria-hidden="true"></div>
+
+  <header>
+    <nav class="nav">
+      <a class="brand" href="#/">
+        <span class="brand-logo" aria-hidden="true">MC</span>
+        <span class="brand-title">Mother Creations</span>
+      </a>
+
+      <div class="menu" role="menubar">
+        <div class="item" role="none">
+          <button role="menuitem" aria-haspopup="true" aria-expanded="false">Activities ▾</button>
+          <div class="dropdown" role="menu" aria-label="Fun activities for moms & kids" id="dd-activities"></div>
+        </div>
+        <div class="item" role="none">
+          <button role="menuitem" aria-haspopup="true" aria-expanded="false">Motherly Nuggets ▾</button>
+          <div class="dropdown" role="menu" aria-label="Motherly nuggets of wisdom" id="dd-nuggets"></div>
+        </div>
+        <div class="item" role="none">
+          <button role="menuitem" aria-haspopup="true" aria-expanded="false">Joyschool ▾</button>
+          <div class="dropdown" role="menu" aria-label="Joyschool lessons" id="dd-joy"></div>
+        </div>
+        <div class="item" role="none">
+          <a role="menuitem" href="#/blog">Blog</a>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main id="app" aria-live="polite"></main>
+
+  <footer>
+    <div class="footer-inner">
+      <div>© <span id="year"></span> Mother Creations • Made with love 💗</div>
+      <div style="display:flex; gap:12px; align-items:center;">
+        <a href="#/about" class="chip">About</a>
+        <a href="#/contact" class="chip">Contact</a>
+        <a href="#/newsletter" class="chip">Newsletter</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+  // --- Mock Data (easy to swap later for real content) ---
+  const Data = {
+    activities: [
+      { slug: 'paper-plate-animals', title: 'Paper Plate Animals', blurb: 'Craft a zoo with paint, plates, and giggles.', thumb:'#FFEDD5', steps:[
+        'Gather paper plates, child-safe scissors, glue, and markers.',
+        'Pick an animal: lion, bunny, owl, or make your own!',
+        'Cut and glue ears / beaks. Draw eyes and whiskers.',
+        'Add a name tag and put on a living-room parade!'
+      ], supplies:['Plates','Scissors','Glue','Markers','Construction paper'] },
+      { slug: 'bubble-painting', title: 'Bubble Painting', blurb: 'Make floating art with bubbles and watercolors.', thumb:'#DBEAFE', steps:[
+        'In cups, mix watercolor + a drop of dish soap.',
+        'Blow bubbles with a straw so they dome over the rim.',
+        'Gently press paper on bubbles to capture prints.',
+        'Dry and hang as a bubbly gallery.'
+      ], supplies:['Watercolors','Dish soap','Straws','Thick paper'] },
+      { slug: 'kitchen-band', title: 'Kitchen Band', blurb: 'Jam with pots, wooden spoons, and rhythm.', thumb:'#FDE68A', steps:[
+        'Collect safe kitchen items that make sounds.',
+        'Count to four and make a shared beat.',
+        'Take turns being the “conductor”.',
+        'Record a 30‑second hit single for grandparents.'
+      ], supplies:['Pots & pans','Wooden spoons','Measuring cups'] },
+      { slug: 'sock-puppets', title: 'Sock Puppets', blurb: 'Sew-free puppets and a show tonight!', thumb:'#E9D5FF', steps:[
+        'Find clean socks and craft bits (buttons, yarn, felt).',
+        'Glue on eyes, hair, and big smiles (with help).',
+        'Create characters and a 3‑scene story.',
+        'Perform! Tickets payable in hugs.'
+      ], supplies:['Socks','Buttons','Felt','Yarn','Glue'] },
+      { slug: 'color-hunt', title: 'Rainbow Color Hunt', blurb: 'A scavenger hunt by colors—indoors or outside.', thumb:'#D1FAE5', steps:[
+        'Print or draw a rainbow checklist.',
+        'Find one item for each color.',
+        'Line them up and take a rainbow photo.',
+        'Talk about shades and patterns.'
+      ], supplies:['Checklist','Crayons','Bag for treasures'] },
+      { slug: 'balloon-tennis', title: 'Balloon Tennis', blurb: 'Energy burner with paper-plate rackets.', thumb:'#FFE4E6', steps:[
+        'Tape craft sticks to plates as rackets.',
+        'Blow up a balloon (or two!).',
+        'Keep the balloon off the floor—rally count!',
+        'Winner chooses snack time story.'
+      ], supplies:['Paper plates','Craft sticks','Tape','Balloon'] },
+    ],
+    nuggets: [
+      { slug:'tiny-traditions', title:'Tiny Traditions Build Big Hearts', points:[
+        'Five-minute rituals matter more than perfect plans.',
+        'Pick a day of the week for one simple tradition.',
+        'Let kids own a part: setting timer, choosing song.',
+      ]},
+      { slug:'present-over-perfect', title:'Present Over Perfect', points:[
+        'Perfection steals presence—embrace “good enough” dinners and messy play.',
+        'Phone down, eyes up: 10‑minute undivided chunks win the day.',
+      ]},
+      { slug:'yes-space', title:'Create a “Yes Space”', points:[
+        'Arrange a corner where everything is safe to touch.',
+        'Say “yes” often there—confidence blossoms with freedom.'
+      ]}
+    ],
+    joyschool: [
+      { slug:'kindness', title:'Lesson: Kindness', overview:'Practicing helping hands, kind words, and noticing feelings.', activities:['Kindness coupon book','Compliment circle','Helping‑hands chart'] },
+      { slug:'curiosity', title:'Lesson: Curiosity', overview:'Asking questions, simple experiments, celebrating “why”.', activities:['Magnifying walk','Sink‑float test','Question jar'] },
+      { slug:'gratitude', title:'Lesson: Gratitude', overview:'Finding and expressing thanks daily.', activities:['Gratitude stones','Thank‑you drawing','Goodnight gratefuls'] }
+    ],
+    blog: [
+      { slug:'our-favorite-five-minute-rituals', title:'Our Favorite Five‑Minute Rituals', date:'2025-09-12', excerpt:'Tiny, repeatable moments that anchor the day with connection.', content:`<p>Short, sweet, and steady—that’s the magic. Try a <em>sunny stretch</em> after breakfast, a <em>story snack</em> at 3pm, and a <em>gratitude whisper</em> before bed. Five minutes done most days beats one hour done never.</p>
+      <h2>Three ideas</h2>
+      <ul><li>Two‑song tidy: clean while two songs play.</li><li>Rose & Thorn: share one joy and one challenge.</li><li>Window wonder: pick a window and describe what you see.</li></ul>` },
+      { slug:'messy-play-sanity', title:'Messy Play without Losing Your Sanity', date:'2025-08-22', excerpt:'Contain the chaos, keep the joy.', content:`<p>Prep a <strong>mess zone</strong>, lay a shower curtain, and keep a <strong>quick bin</strong> of wipes, towels, and a spare shirt. Mess invites learning—just give it friendly boundaries.</p>` },
+      { slug:'joyschool-first-week', title:'Joyschool: First‑Week Gameplan', date:'2025-07-15', excerpt:'How to start strong and happy.', content:`<p>Keep day one simple: names, one song, one activity, and a celebration dance. End with a <em>kindness token</em> the kids can take home.</p>` }
+    ]
+  };
+
+  // --- Router ---
+  const $app = document.getElementById('app');
+  const $year = document.getElementById('year');
+  $year.textContent = new Date().getFullYear();
+
+  const routes = {
+    '': renderHome,
+    '#/': renderHome,
+    '#/activities': () => renderList('activities'),
+    '#/activities/': () => renderList('activities'),
+    '#/nuggets': () => renderList('nuggets'),
+    '#/joyschool': () => renderList('joyschool'),
+    '#/blog': renderBlogIndex,
+  };
+
+  function navigate(){
+    const hash = location.hash || '#/';
+    // detail pages
+    if(hash.startsWith('#/activities/')) return renderActivity(hash.split('/')[2]);
+    if(hash.startsWith('#/nuggets/'))   return renderNugget(hash.split('/')[2]);
+    if(hash.startsWith('#/joyschool/')) return renderJoy(hash.split('/')[2]);
+    if(hash.startsWith('#/post/'))      return renderPost(hash.split('/')[2]);
+    // list or base routes
+    (routes[hash] || routes['#/'])();
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+  window.addEventListener('hashchange', navigate);
+
+  // --- UI Builders ---
+  function hero(){
+    const latest = [...Data.blog].sort((a,b)=> b.date.localeCompare(a.date))[0];
+    return `
+      <section class="hero">
+        <div class="hero-card">
+          <span class="pill">Joyful • Simple • Doable</span>
+          <h1>Happy ideas for moms & little ones</h1>
+          <p>Mother Creations gathers <strong>fun activities</strong>, <strong>motherly nuggets of wisdom</strong>, and <strong>Joyschool lessons</strong>—beautifully simple ways to connect every day.</p>
+          <a class="cta" href="#/activities">Explore Activities →</a>
+          <div class="stats">
+            <div class="stat">60+ Activity Steps</div>
+            <div class="stat">9 Joyschool Minis</div>
+            <div class="stat">Weekly Blog Posts</div>
+          </div>
+        </div>
+        <div class="hero-card" style="background:linear-gradient(145deg,var(--bubble-2),var(--bubble-1))">
+          <div class="card" style="box-shadow:none;background:rgba(255,255,255,.8);">
+            <div class="body">
+              <div class="chip" style="margin-bottom:8px">Latest from the Blog</div>
+              <h3 style="margin:6px 0 8px">${latest.title}</h3>
+              <p style="color:var(--muted); margin:0 0 10px">${latest.excerpt}</p>
+              <a class="cta" href="#/post/${latest.slug}" style="--x:1">Read Post →</a>
+            </div>
+          </div>
+        </div>
+      </section>`
+  }
+
+  function sectionCards(title, kind, items){
+    const cards = items.map(x=>`
+      <article class="card">
+        <div class="thumb" style="background:${x.thumb || 'linear-gradient(135deg,var(--bubble-1),var(--bubble-4))'}"></div>
+        <div class="body">
+          <span class="chip">${title}</span>
+          <h3 style="margin:8px 0 6px">${x.title}</h3>
+          <p style="color:var(--muted); margin:0 0 10px">${x.blurb || x.overview || 'Tap to open'}</p>
+          <a class="cta" href="#/${kind}/${x.slug}">Open →</a>
+        </div>
+      </article>`).join('');
+    return `
+      <section class="section">
+        <h2>${title}</h2>
+        <div class="grid">${cards}</div>
+      </section>`
+  }
+
+  function renderHome(){
+    $app.innerHTML = hero()
+      + sectionCards('Activities', 'activities', Data.activities.slice(0,3))
+      + sectionCards('Joyschool', 'joyschool', Data.joyschool.slice(0,3))
+      + blogTeaser();
+  }
+
+  function renderList(kind){
+    const title = kind === 'activities' ? 'Activities' : kind === 'nuggets' ? 'Motherly Nuggets of Wisdom' : 'Joyschool Lessons';
+    const items = Data[kind];
+    $app.innerHTML = `
+      <section class="section">
+        <h2>${title}</h2>
+        <div class="grid">
+          ${items.map(x=>`
+            <article class="card">
+              <div class="thumb" style="background:${x.thumb || 'linear-gradient(135deg,var(--bubble-2),var(--bubble-3))'}"></div>
+              <div class="body">
+                <h3 style="margin:4px 0 8px">${x.title}</h3>
+                ${x.blurb ? `<p style="color:var(--muted)">${x.blurb}</p>` : x.overview ? `<p style="color:var(--muted)">${x.overview}</p>` : ''}
+                <a class="cta" href="#/${kind}/${x.slug}">Open →</a>
+              </div>
+            </article>
+          `).join('')}
+        </div>
+      </section>`;
+  }
+
+  function renderActivity(slug){
+    const a = Data.activities.find(x=>x.slug===slug);
+    if(!a) return notFound();
+    $app.innerHTML = `
+      <article class="prose card" style="padding:24px">
+        <a href="#/activities" class="chip">← Back to Activities</a>
+        <h1>${a.title}</h1>
+        <p>${a.blurb || ''}</p>
+        <h2>Supplies</h2>
+        <ul>${(a.supplies||[]).map(s=>`<li>${s}</li>`).join('')}</ul>
+        <h2>Steps</h2>
+        <ol>${(a.steps||[]).map(s=>`<li>${s}</li>`).join('')}</ol>
+      </article>`
+  }
+
+  function renderNugget(slug){
+    const n = Data.nuggets.find(x=>x.slug===slug);
+    if(!n) return notFound();
+    $app.innerHTML = `
+      <article class="prose card" style="padding:24px">
+        <a href="#/nuggets" class="chip">← Back to Nuggets</a>
+        <h1>${n.title}</h1>
+        <ul>${n.points.map(p=>`<li>${p}</li>`).join('')}</ul>
+      </article>`
+  }
+
+  function renderJoy(slug){
+    const j = Data.joyschool.find(x=>x.slug===slug);
+    if(!j) return notFound();
+    $app.innerHTML = `
+      <article class="prose card" style="padding:24px">
+        <a href="#/joyschool" class="chip">← Back to Joyschool</a>
+        <h1>${j.title}</h1>
+        <p>${j.overview}</p>
+        <h2>Activities</h2>
+        <ul>${j.activities.map(p=>`<li>${p}</li>`).join('')}</ul>
+      </article>`
+  }
+
+  function blogTeaser(){
+    const posts = [...Data.blog].sort((a,b)=> b.date.localeCompare(a.date)).slice(0,2);
+    return `
+      <section class="section">
+        <h2>From the Blog</h2>
+        <div class="blog-list">
+          ${posts.map(p=>`
+            <article class="card">
+              <div class="thumb"></div>
+              <div class="body">
+                <span class="chip">${new Date(p.date).toLocaleDateString()}</span>
+                <h3 style="margin:8px 0 8px">${p.title}</h3>
+                <p style="color:var(--muted)">${p.excerpt}</p>
+                <a class="cta" href="#/post/${p.slug}">Read →</a>
+              </div>
+            </article>`).join('')}
+        </div>
+        <div style="margin-top:12px"><a class="cta" href="#/blog">Visit the Blog →</a></div>
+      </section>`
+  }
+
+  function renderBlogIndex(){
+    const posts = [...Data.blog].sort((a,b)=> b.date.localeCompare(a.date));
+    $app.innerHTML = `
+      <section class="section">
+        <h2>Mother Creations Blog</h2>
+        <div class="blog-list">
+          ${posts.map(p=>`
+            <article class="card">
+              <div class="thumb"></div>
+              <div class="body">
+                <span class="chip">${new Date(p.date).toLocaleDateString()}</span>
+                <h3 style="margin:8px 0 8px">${p.title}</h3>
+                <p style="color:var(--muted)">${p.excerpt}</p>
+                <a class="cta" href="#/post/${p.slug}">Read →</a>
+              </div>
+            </article>`).join('')}
+        </div>
+      </section>`
+  }
+
+  function renderPost(slug){
+    const p = Data.blog.find(x=>x.slug===slug);
+    if(!p) return notFound();
+    $app.innerHTML = `
+      <article class="prose card" style="padding:24px">
+        <a href="#/blog" class="chip">← Back to Blog</a>
+        <h1>${p.title}</h1>
+        <p style="color:var(--muted);margin-top:-6px">${new Date(p.date).toLocaleDateString()}</p>
+        ${p.content}
+      </article>`
+  }
+
+  function notFound(){
+    $app.innerHTML = `<div class="card" style="padding:24px"><h2>Page not found</h2><p>Try the menu above.</p></div>`
+  }
+
+  // --- Build dropdown menus from data ---
+  function buildDropdowns(){
+    const mk = (kind, id) => {
+      const wrap = document.getElementById(id);
+      wrap.innerHTML = Data[kind].map(x=>`<a href="#/${kind}/${x.slug}">${x.title}</a>`).join('');
+    }
+    mk('activities', 'dd-activities');
+    mk('nuggets', 'dd-nuggets');
+    mk('joyschool', 'dd-joy');
+  }
+
+  buildDropdowns();
+  navigate();
+
+  // Make dropdown buttons reflect expanded state for a11y
+  document.querySelectorAll('.menu .item > button').forEach(btn=>{
+    btn.addEventListener('mouseenter', ()=> btn.setAttribute('aria-expanded','true'));
+    btn.addEventListener('mouseleave', ()=> btn.setAttribute('aria-expanded','false'));
+    btn.addEventListener('focus', ()=> btn.setAttribute('aria-expanded','true'));
+    btn.addEventListener('blur',  ()=> btn.setAttribute('aria-expanded','false'));
+  });
+  </script>
+</body>
+</html>
