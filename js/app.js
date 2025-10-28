@@ -13,7 +13,7 @@ const slug = s => String(s || '')
 const unslug = (sl, list) => list.find(x => slug(x) === sl) || null;
 
 // markup transformer: <...> -> bold, <^...^> -> bold + +2px
-function applyMarkup(text, basePx = 12) {
+function applyMarkup(text, basePx = 18) {
   if (!text) return '';
 
   // 1) Temporarily mark <^...^> as placeholders
@@ -24,7 +24,7 @@ function applyMarkup(text, basePx = 12) {
 
   // 3) Replace placeholders with bold + +2px
   html = html.replace(/\[\[BB:([\s\S]+?)\]\]/g, (_, t) =>
-    `<span style="font-weight:bold;font-size:${basePx + 2}px">${t}</span>`
+    `<span style="font-weight:bold;font-size:${basePx + 4}px">${t}</span>`
   );
 
   return html;
@@ -38,15 +38,15 @@ function renderHome(root) {
   root.innerHTML = `
     <div class="wrapper">
       <div class="header">
-        <h1 class="site-title">${applyMarkup(home.title, 36)}</h1>
+        <h1 class="site-title">${applyMarkup(home.title, 56)}</h1>
       </div>
 
    <div class="hero-crop">
       <img class="hero" src="/assets/mother-joy.jpg" alt="Happy mom holding baby" />
       </div>
 
-      <p class="p">${applyMarkup(home.intro1, 12)}</p>
-      <p class="p">${applyMarkup(home.intro2, 12)}</p>
+      <p class="p">${applyMarkup(home.intro1, 18)}</p>
+      <p class="p">${applyMarkup(home.intro2, 18)}</p>
 
       <div class="jobs-wrap">
         ${jobs.map(job => {
