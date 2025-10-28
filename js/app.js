@@ -16,18 +16,23 @@ const slug = s => String(s || '')
 const unslug = (sl, list) => list.find(x => slug(x) === sl) || null;
 
 // Markup rules:
-//   <text>           -> bold
-//   ^^text^^         -> upsize (no bold)
-//   <^^text^^>       -> bold + upsize
+//   <text>              -> bold
+//   ^text^ / ^^text^^   -> upsize (no bold)
+//   <^text^> / <^^text^^> -> bold + upsize
 function applyMarkup(text, basePx = 16, bumpPx = 4) {
   if (!text) return '';
   let html = String(text);
 
-  // Placeholders so passes don't collide
+  // Placeholders so passes don't collide with <...> bolding
   html = html
-    .replace(/<\^\^([\s\S]+?)\^\^>/g, '[[BB:$1]]')  // bold + bump
-    .replace(/\^\^([\s\S]+?)\^\^/g, '[[B:$1]]')     // bump only
-    .replace(/<([\s\S]+?)>/g, '<strong>$1</strong>'); // bold only
+    // bold + bump (both single-^ and double-^^ versions)
+    .replace(/<\^\^([\s\S]+?)\^\^>/g, '[[BB:$1]]')
+    .replace(/<\^([\s\S]+?)\^>/g, '[[BB:$1]]')
+    // bump only
+    .replace(/\^\^([\s\S]+?)\^\^/g, '[[B:$1]]')
+    .replace(/\^([\s\S]+?)\^/g, '[[B:$1]]')
+    // bold only (angle brackets that remain)
+    .replace(/<([\s\S]+?)>/g, '<strong>$1</strong>');
 
   // Final substitutions
   html = html
@@ -38,7 +43,6 @@ function applyMarkup(text, basePx = 16, bumpPx = 4) {
 
   return html;
 }
-
 
 // Renderers
 function renderHome(root) {
