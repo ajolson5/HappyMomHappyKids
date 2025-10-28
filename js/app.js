@@ -15,20 +15,21 @@ const unslug = (sl, list) => list.find(x => slug(x) === sl) || null;
 // markup transformer: <...> -> bold, <^...^> -> bold + +2px
 function applyMarkup(text, basePx = 12) {
   if (!text) return '';
-  let html = text;
 
-  // <^...^> first (bold + size +2)
-  html = html.replace(/<\^([^>]+)\^>/g, (_, t) =>
+  // 1) Temporarily mark <^...^> as placeholders
+  let html = String(text).replace(/<\^([\s\S]+?)\^>/g, (_, t) => `[[BB:${t}]]`);
+
+  // 2) Convert <...> (bold only)
+  html = html.replace(/<([\s\S]+?)>/g, (_, t) => `<strong>${t}</strong>`);
+
+  // 3) Replace placeholders with bold + +2px
+  html = html.replace(/\[\[BB:([\s\S]+?)\]\]/g, (_, t) =>
     `<span style="font-weight:bold;font-size:${basePx + 2}px">${t}</span>`
-  );
-
-  // then <...> (bold only)
-  html = html.replace(/<([^>]+)>/g, (_, t) =>
-    `<strong>${t}</strong>`
   );
 
   return html;
 }
+
 
 // Renderers
 function renderHome(root) {
