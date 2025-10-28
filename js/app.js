@@ -41,7 +41,9 @@ function renderHome(root) {
         <h1 class="site-title">${applyMarkup(home.title, 36)}</h1>
       </div>
 
+   <div class="hero-crop">
       <img class="hero" src="/assets/mother-joy.jpg" alt="Happy mom holding baby" />
+      </div>
 
       <p class="p">${applyMarkup(home.intro1, 12)}</p>
       <p class="p">${applyMarkup(home.intro2, 12)}</p>
