@@ -1,6 +1,6 @@
 // js/app.js
 
-const API = '/.netlify/functions/sheets'; // Netlify function endpoint
+const API = '/api/sheets';
 let DATA = null; // will hold { home, jobs, sectionsByJob }
 
 // slug helpers
