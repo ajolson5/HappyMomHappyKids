@@ -1,0 +1,182 @@
+// js/app.js
+
+const API = '/.netlify/functions/sheets'; // Netlify function endpoint
+let DATA = null; // will hold { home, jobs, sectionsByJob }
+
+// slug helpers
+const slug = s => String(s || '')
+  .toLowerCase()
+  .trim()
+  .replace(/[^\w\s-]/g, '')
+  .replace(/\s+/g, '-');
+
+const unslug = (sl, list) => list.find(x => slug(x) === sl) || null;
+
+// markup transformer: <...> -> bold, <^...^> -> bold + +2px
+function applyMarkup(text, basePx = 12) {
+  if (!text) return '';
+  let html = text;
+
+  // <^...^> first (bold + size +2)
+  html = html.replace(/<\^([^>]+)\^>/g, (_, t) =>
+    `<span style="font-weight:bold;font-size:${basePx + 2}px">${t}</span>`
+  );
+
+  // then <...> (bold only)
+  html = html.replace(/<([^>]+)>/g, (_, t) =>
+    `<strong>${t}</strong>`
+  );
+
+  return html;
+}
+
+// Renderers
+function renderHome(root) {
+  const { home, jobs, sectionsByJob } = DATA;
+
+  root.innerHTML = `
+    <div class="wrapper">
+      <div class="header">
+        <h1 class="site-title">${applyMarkup(home.title, 36)}</h1>
+      </div>
+
+      <img class="hero" src="/assets/mother-joy.jpg" alt="Happy mom holding baby" />
+
+      <p class="p">${applyMarkup(home.intro1, 12)}</p>
+      <p class="p">${applyMarkup(home.intro2, 12)}</p>
+
+      <div class="jobs-wrap">
+        ${jobs.map(job => {
+          const items = sectionsByJob[job.name] || [];
+          return `
+            <div class="job-btn" data-job="${slug(job.name)}" title="Open ${job.name}">
+              ${job.name}
+              <div class="job-menu">
+                ${items.length
+                  ? items.map(sec => `
+                      <a href="#/section/${slug(job.name)}/${slug(sec.title)}" title="${sec.title}">
+                        ${sec.title}
+                      </a>`).join('')
+                  : `<div style="padding:6px 8px;color:#777;font-size:12px">No sections yet</div>`
+                }
+              </div>
+            </div>
+          `;
+        }).join('')}
+      </div>
+    </div>
+  `;
+
+  // clicking the job pill goes to that job page (not just the hover menu)
+  root.querySelectorAll('.job-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      // Ignore clicks on the dropdown <a> so they still work
+      if (e.target.closest('.job-menu a')) return;
+      const jobSlug = btn.getAttribute('data-job');
+      location.hash = `#/job/${jobSlug}`;
+    });
+  });
+}
+
+function notionEmbedHtml(url) {
+  if (!url) return `<div style="font-size:12px;color:#777">Notion link not set yet.</div>`;
+
+  // Many Notion links now allow embedding when "Share to web" is on.
+  // We try an iframe; if it’s blocked by X-Frame-Options, users can click the link below.
+  return `
+    <div class="embed">
+      <iframe src="${url}" referrerpolicy="no-referrer" loading="lazy"></iframe>
+      <div style="margin-top:8px;font-size:12px;">
+        If the embed doesn’t load, <a href="${url}" target="_blank" rel="noopener">open in Notion</a>.
+      </div>
+    </div>
+  `;
+}
+
+function renderJob(root, jobSlug) {
+  const { jobs, sectionsByJob } = DATA;
+  const job = jobs.find(j => slug(j.name) === jobSlug);
+  if (!job) return renderNotFound(root);
+
+  const sections = sectionsByJob[job.name] || [];
+
+  root.innerHTML = `
+    <div class="wrapper">
+      <a class="back" href="#/">← Back to Home</a>
+      <div class="page-title">${job.name}</div>
+
+      ${job.notionBlurb ? notionEmbedHtml(job.notionBlurb) : ''}
+
+      <div class="buttons">
+        ${sections.map(s => `
+          <a class="btn" href="#/section/${slug(job.name)}/${slug(s.title)}">${s.title}</a>
+        `).join('')}
+      </div>
+    </div>
+  `;
+}
+
+function renderSection(root, jobSlug, sectionSlug) {
+  const { jobs, sectionsByJob } = DATA;
+  const job = jobs.find(j => slug(j.name) === jobSlug);
+  if (!job) return renderNotFound(root);
+
+  const sections = sectionsByJob[job.name] || [];
+  const sec = sections.find(s => slug(s.title) === sectionSlug);
+  if (!sec) return renderNotFound(root);
+
+  root.innerHTML = `
+    <div class="wrapper">
+      <a class="back" href="#/job/${jobSlug}">← Back to ${job.name}</a>
+      <div class="page-title">${job.name} — ${sec.title}</div>
+      ${notionEmbedHtml(sec.notionUrl)}
+    </div>
+  `;
+}
+
+function renderNotFound(root) {
+  root.innerHTML = `
+    <div class="wrapper">
+      <a class="back" href="#/">← Back to Home</a>
+      <div class="page-title">Not found</div>
+      <p class="p">Sorry, we couldn’t find that page.</p>
+    </div>
+  `;
+}
+
+// Router
+function router() {
+  const root = document.getElementById('app');
+  const hash = location.hash || '#/';
+  const parts = hash.replace(/^#\//, '').split('/');
+
+  if (!DATA) {
+    root.innerHTML = `<div class="wrapper"><p class="p">Loading…</p></div>`;
+    return;
+  }
+
+  if (parts[0] === '' || parts[0] === null) {
+    renderHome(root);
+  } else if (parts[0] === 'job' && parts[1]) {
+    renderJob(root, parts[1]);
+  } else if (parts[0] === 'section' && parts[1] && parts[2]) {
+    renderSection(root, parts[1], parts[2]);
+  } else {
+    renderNotFound(root);
+  }
+}
+
+async function boot() {
+  try {
+    const res = await fetch(API);
+    DATA = await res.json();
+  } catch (e) {
+    console.error('Failed to load Sheets data', e);
+    DATA = null;
+  } finally {
+    router();
+  }
+}
+
+window.addEventListener('hashchange', router);
+boot();
