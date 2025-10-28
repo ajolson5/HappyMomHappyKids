@@ -30,9 +30,7 @@ html, body {
 
 /* Title */
 h1.site-title {
-  font-size: 56px;
   line-height: 1.1;
-  font-weight: bold;
   margin: 8px 12px 12px;
 }
 
@@ -103,7 +101,7 @@ h1.site-title {
   border: 1px solid var(--job-btn-border);
   box-shadow: 0 2px 10px rgba(0,0,0,0.05);
   cursor: pointer;
-  font-size: 12px;
+  font-size: 16px;
   transition: transform 120ms ease, box-shadow 120ms ease;
   user-select: none;
   white-space: nowrap;
@@ -139,7 +137,7 @@ h1.site-title {
   border-radius: 8px;
   text-decoration: none;
   color: var(--text);
-  font-size: 12px;
+  font-size: 16px;
 }
 
 .job-menu a:hover {
