@@ -2,7 +2,7 @@
 
 const API = '/api/sheets';
 let DATA = null; // will hold { home, jobs, sectionsByJob }
-const TITLE_BASE = 56;  // title baseline size
+const TITLE_BASE = 75;  // title baseline size
 const P_BASE = 16;      // paragraph baseline size
 const BUMP = 4;         // how much ^^ grows
 
