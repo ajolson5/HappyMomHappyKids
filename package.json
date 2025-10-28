@@ -1,0 +1,11 @@
+{
+  "name": "moms-website",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "netlify dev"
+  },
+  "dependencies": {
+    "googleapis": "^131.0.0"
+  }
+}
