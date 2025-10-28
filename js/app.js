@@ -2,6 +2,9 @@
 
 const API = '/api/sheets';
 let DATA = null; // will hold { home, jobs, sectionsByJob }
+const TITLE_BASE = 48;  // title baseline size
+const P_BASE = 16;      // paragraph baseline size
+const BUMP = 4;         // how much ^^ grows
 
 // slug helpers
 const slug = s => String(s || '')
@@ -12,20 +15,26 @@ const slug = s => String(s || '')
 
 const unslug = (sl, list) => list.find(x => slug(x) === sl) || null;
 
-// markup transformer: <...> -> bold, <^...^> -> bold + +2px
-function applyMarkup(text, basePx = 18) {
+// Markup rules:
+//   <text>           -> bold
+//   ^^text^^         -> upsize (no bold)
+//   <^^text^^>       -> bold + upsize
+function applyMarkup(text, basePx = 16, bumpPx = 4) {
   if (!text) return '';
+  let html = String(text);
 
-  // 1) Temporarily mark <^...^> as placeholders
-  let html = String(text).replace(/<\^([\s\S]+?)\^>/g, (_, t) => `[[BB:${t}]]`);
+  // Placeholders so passes don't collide
+  html = html
+    .replace(/<\^\^([\s\S]+?)\^\^>/g, '[[BB:$1]]')  // bold + bump
+    .replace(/\^\^([\s\S]+?)\^\^/g, '[[B:$1]]')     // bump only
+    .replace(/<([\s\S]+?)>/g, '<strong>$1</strong>'); // bold only
 
-  // 2) Convert <...> (bold only)
-  html = html.replace(/<([\s\S]+?)>/g, (_, t) => `<strong>${t}</strong>`);
-
-  // 3) Replace placeholders with bold + +2px
-  html = html.replace(/\[\[BB:([\s\S]+?)\]\]/g, (_, t) =>
-    `<span style="font-weight:bold;font-size:${basePx + 4}px">${t}</span>`
-  );
+  // Final substitutions
+  html = html
+    .replace(/\[\[BB:([\s\S]+?)\]\]/g,
+      (_, t) => `<span style="font-weight:bold;font-size:${basePx + bumpPx}px">${t}</span>`)
+    .replace(/\[\[B:([\s\S]+?)\]\]/g,
+      (_, t) => `<span style="font-size:${basePx + bumpPx}px">${t}</span>`);
 
   return html;
 }
@@ -38,15 +47,15 @@ function renderHome(root) {
   root.innerHTML = `
     <div class="wrapper">
       <div class="header">
-        <h1 class="site-title">${applyMarkup(home.title, 56)}</h1>
+        <h1 class="site-title">${applyMarkup(home.title, TITLE_BASE, BUMP)}</h1>
       </div>
 
    <div class="hero-crop">
       <img class="hero" src="/assets/mother-joy.jpg" alt="Happy mom holding baby" />
       </div>
 
-      <p class="p">${applyMarkup(home.intro1, 18)}</p>
-      <p class="p">${applyMarkup(home.intro2, 18)}</p>
+      <p class="p">${applyMarkup(home.intro1, P_BASE, BUMP)}</p>
+      <p class="p">${applyMarkup(home.intro2, P_BASE, BUMP)}</p>
 
       <div class="jobs-wrap">
         ${jobs.map(job => {
