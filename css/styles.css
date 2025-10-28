@@ -40,7 +40,7 @@ h1.site-title {
 .hero-crop {
   /* === Adjust these 5 variables to control the crop === */
   --hero-height: 500px;   /* vertical crop: make taller/shorter */
-  --hero-zoom: 0.5;      /* 1 = fit; >1 = zoom in (crops both width & height) */
+  --hero-zoom: 0.6;      /* 1 = fit; >1 = zoom in (crops both width & height) */
   --hero-x: 50%;          /* slide left/right: 0% left, 50% center, 100% right */
   --hero-y: 50%;          /* slide up/down: 0% top, 50% center, 100% bottom */
   --hero-width: 100%;     /* optional: <100% crops the SIDES by shrinking the box */
