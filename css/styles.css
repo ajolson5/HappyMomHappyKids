@@ -6,7 +6,7 @@
   --job-btn-bg: #fff;
   --job-btn-border: #e8e8e8;
   --radius: 16px;
-  --p-size: 12px;        /* base paragraph size */
+  --p-size: 18px;        /* base paragraph size */
 }
 
 html, body {
@@ -30,22 +30,54 @@ html, body {
 
 /* Title */
 h1.site-title {
-  font-size: 36px;
+  font-size: 56px;
   line-height: 1.1;
   font-weight: bold;
   margin: 8px 12px 12px;
 }
 
-/* Hero image with gentle crop (doesn’t fill full screen height) */
-.hero {
-  display: block;
-  width: 100%;
-  max-height: 600px;   /* controls the visible height */
-  object-fit: cover;
-  object-position: center;
+/* CROPPING CONTAINER (has the visible rounded box) */
+.hero-crop {
+  /* === Adjust these 5 variables to control the crop === */
+  --hero-height: 360px;   /* vertical crop: make taller/shorter */
+  --hero-zoom: 1.00;      /* 1 = fit; >1 = zoom in (crops both width & height) */
+  --hero-x: 50%;          /* slide left/right: 0% left, 50% center, 100% right */
+  --hero-y: 50%;          /* slide up/down: 0% top, 50% center, 100% bottom */
+  --hero-width: 100%;     /* optional: <100% crops the SIDES by shrinking the box */
+
+  position: relative;
+  width: var(--hero-width);
+  height: var(--hero-height);
+  overflow: hidden;
+
+  /* move this here so the rounded box/shadow matches the crop */
   border-radius: var(--radius);
   box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+  margin: 0 auto; /* keeps the box centered when width < 100% */
 }
+
+/* THE IMAGE ITSELF: scaled & slid inside the box */
+.hero {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform:
+    translate(
+      calc(-1 * var(--hero-x)),
+      calc(-1 * var(--hero-y))
+    )
+    scale(var(--hero-zoom));
+  transform-origin: center;
+
+  /* ensure the image always covers the box */
+  min-width: 100%;
+  min-height: 100%;
+  height: auto;
+  width: auto;
+
+  display: block;
+}
+
 
 /* Paragraphs */
 .p {
