@@ -95,6 +95,7 @@ h1.site-title {
 
 .job-btn {
   position: relative;
+  z-index: 1;           /* baseline */
   display: inline-block;
   padding: 10px 14px;
   border-radius: 14px;
@@ -109,6 +110,7 @@ h1.site-title {
 }
 
 .job-btn:hover {
+  z-index: 10000;       /* lift the whole button + menu above neighbors */
   transform: translateY(-1px);
   box-shadow: 0 6px 18px rgba(0,0,0,0.08);
 }
@@ -116,8 +118,9 @@ h1.site-title {
 /* Hover dropdown of sections */
 .job-menu {
   position: absolute;
-  top: 110%;
-  left: 0;
+  bottom: calc(100% + 8px); /* sit above the button with an 8px gap */
+  left: 50%;
+  transform: translateX(-50%); /* center over the button */
   background: #fff;
   border: 1px solid #e6e6e6;
   border-radius: 12px;
@@ -125,7 +128,7 @@ h1.site-title {
   padding: 8px;
   box-shadow: 0 10px 24px rgba(0,0,0,0.12);
   display: none;
-  z-index: 20;
+  z-index: 9999; /* sit above everything */
 }
 
 .job-btn:hover .job-menu {
