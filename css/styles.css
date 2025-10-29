@@ -30,6 +30,7 @@ html, body {
 
 /* Title */
 h1.site-title {
+  font-weight: normal;  /* stop default H1 bold so <...> controls bold */
   line-height: 1.1;
   margin: 8px 12px 12px;
 }
