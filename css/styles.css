@@ -37,7 +37,7 @@ h1.site-title {
 /* CROPPING CONTAINER (has the visible rounded box) */
 .hero-crop {
   /* === Adjust these 5 variables to control the crop === */
-  --hero-height: 600px;   /* vertical crop: make taller/shorter */
+  --hero-height: 550px;   /* vertical crop: make taller/shorter */
   --hero-zoom: 0.52;      /* 1 = fit; >1 = zoom in (crops both width & height) */
   --hero-x: 50%;          /* slide left/right: 0% left, 50% center, 100% right */
   --hero-y: 49%;          /* slide up/down: 0% top, 50% center, 100% bottom */
