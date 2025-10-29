@@ -2,7 +2,7 @@
 
 const API = '/api/sheets';
 let DATA = null; // will hold { home, jobs, sectionsByJob }
-const TITLE_BASE = 180;  // title baseline size
+const TITLE_BASE = 55;  // title baseline size
 const P_BASE = 16;      // paragraph baseline size
 const BUMP = 4;         // how much ^^ grows
 
@@ -51,7 +51,9 @@ function renderHome(root) {
   root.innerHTML = `
     <div class="wrapper">
       <div class="header">
-        <h1 class="site-title">${applyMarkup(home.title, TITLE_BASE, BUMP)}</h1>
+        <h1 class="site-title" style="font-size:${TITLE_BASE}px">
+          ${applyMarkup(home.title, TITLE_BASE, BUMP)}
+         </h1>
       </div>
 
    <div class="hero-crop">
