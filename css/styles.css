@@ -40,7 +40,7 @@ h1.site-title {
   --hero-height: 600px;   /* vertical crop: make taller/shorter */
   --hero-zoom: 0.52;      /* 1 = fit; >1 = zoom in (crops both width & height) */
   --hero-x: 50%;          /* slide left/right: 0% left, 50% center, 100% right */
-  --hero-y: 45%;          /* slide up/down: 0% top, 50% center, 100% bottom */
+  --hero-y: 49%;          /* slide up/down: 0% top, 50% center, 100% bottom */
   --hero-width: 100%;     /* optional: <100% crops the SIDES by shrinking the box */
 
   position: relative;
