@@ -205,3 +205,21 @@ h1.site-title {
   text-decoration: none;
   font-size: 12px;
 }
+
+/* Keep menu open when hovering the menu itself (or its pseudo-elements) */
+.job-menu:hover {
+  display: block;
+}
+
+/* Invisible hover "bridge" BELOW the menu, filling the visual gap to the button */
+.job-menu::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 8px;   /* ← match your visual gap size */
+  bottom: -8px;  /* ← same magnitude, extends downward into the gap */
+  background: transparent;
+  pointer-events: auto; /* counts as hovering the menu */
+  /* inherits menu's z-index so it stays on top */
+}
