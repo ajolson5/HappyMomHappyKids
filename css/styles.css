@@ -116,11 +116,14 @@ h1.site-title {
 }
 
 /* Hover dropdown of sections */
+./* keep your existing .job-menu styles, but add --menu-gap and use it */
 .job-menu {
+  /* was: bottom: calc(100% + 8px); */
+  --menu-gap: 8px;
   position: absolute;
-  bottom: calc(100% + 8px); /* sit above the button with an 8px gap */
+  bottom: calc(100% + var(--menu-gap));
   left: 50%;
-  transform: translateX(-50%); /* center over the button */
+  transform: translateX(-50%);
   background: #fff;
   border: 1px solid #e6e6e6;
   border-radius: 12px;
@@ -128,7 +131,19 @@ h1.site-title {
   padding: 8px;
   box-shadow: 0 10px 24px rgba(0,0,0,0.12);
   display: none;
-  z-index: 9999; /* sit above everything */
+  z-index: 9999;
+}
+
+/* 🔧 Invisible “hover bridge” that fills the gap so the menu stays open */
+.job-menu::after {
+  content: "";
+  position: absolute;
+  left: -12px;                            /* widen a bit for safety */
+  width: calc(100% + 24px);
+  height: var(--menu-gap);                /* exactly the visual gap */
+  bottom: calc(-1 * var(--menu-gap));     /* sits in the gap area */
+  background: transparent;                /* invisible but hoverable */
+  pointer-events: auto;                   /* default, just explicit */
 }
 
 .job-btn:hover .job-menu {
