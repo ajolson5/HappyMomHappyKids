@@ -7,5 +7,6 @@
   },
   "dependencies": {
     "googleapis": "^131.0.0"
+    "@notionhq/client": "^2.2.14"
   }
 }
