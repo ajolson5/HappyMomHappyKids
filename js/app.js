@@ -97,19 +97,29 @@ function renderHome(root) {
 }
 
 function notionEmbedHtml(url) {
-  if (!url) return `<div style="font-size:12px;color:#777">Notion link not set yet.</div>`;
-
-  // Many Notion links now allow embedding when "Share to web" is on.
-  // We try an iframe; if it’s blocked by X-Frame-Options, users can click the link below.
-  return `
-    <div class="embed">
-      <iframe src="${url}" referrerpolicy="no-referrer" loading="lazy"></iframe>
-      <div style="margin-top:8px;font-size:12px;">
-        If the embed doesn’t load, <a href="${url}" target="_blank" rel="noopener">open in Notion</a>.
-      </div>
-    </div>
-  `;
+  if (!url) return `<div class="ntn-empty">Notion link not set yet.</div>`;
+  const id = "ntn-" + Math.random().toString(36).slice(2);
+  const encoded = encodeURIComponent(url);
+  // Shell that we fill after fetch
+  queueMicrotask(async () => {
+    try {
+      const r = await fetch(`/api/notion-html?url=${encoded}`);
+      const j = await r.json();
+      const el = document.getElementById(id);
+      if (!el) return;
+      if (j?.ok) {
+        el.innerHTML = j.html;
+      } else {
+        el.innerHTML = `<div class="ntn-fallback">Couldn’t load private Notion content. <a href="${url}" target="_blank" rel="noopener">Open in Notion</a>.</div>`;
+      }
+    } catch {
+      const el = document.getElementById(id);
+      if (el) el.innerHTML = `<div class="ntn-fallback">Couldn’t load private Notion content. <a href="${url}" target="_blank" rel="noopener">Open in Notion</a>.</div>`;
+    }
+  });
+  return `<div class="ntn-container" id="${id}">Loading…</div>`;
 }
+
 
 function renderJob(root, jobSlug) {
   const { jobs, sectionsByJob } = DATA;
