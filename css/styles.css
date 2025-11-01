@@ -328,3 +328,17 @@ html, body { overflow-x: hidden; }
   justify-content: center;  /* <-- the centering */
   gap: 12px;            /* keep your spacing tidy (match your current gap if different) */
 }
+
+@media (max-width: 640px) {
+  .hero-crop {
+    height: auto;               /* let it grow with the image */
+  }
+  .hero {
+    position: static;           /* remove absolute positioning */
+    transform: none;            /* no manual x/y or zoom */
+    width: 100%;                /* scale to container width */
+    height: auto;               /* keep aspect ratio */
+    min-width: 0;               /* undo desktop constraints */
+    min-height: 0;
+  }
+}
