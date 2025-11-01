@@ -5,6 +5,8 @@ let DATA = null; // will hold { home, jobs, sectionsByJob }
 const TITLE_BASE = 55;  // title baseline size
 const P_BASE = 16;      // paragraph baseline size
 const BUMP = 4;         // how much ^^ grows
+const HOME_JOBBTN_BASE = 18;   // font px for home page job title buttons
+const JOBPAGE_BTN_BASE = 18;   // font px for buttons on a job's page (the section buttons)
 
 // slug helpers
 const slug = s => String(s || '')
@@ -46,6 +48,8 @@ function applyMarkup(text, basePx = 16, bumpPx = 4) {
 
 // Renderers
 function renderHome(root) {
+  document.documentElement.style.setProperty('--home-jobbtn-font', `${HOME_JOBBTN_BASE}px`);
+document.documentElement.style.setProperty('--jobpage-btn-font', `${JOBPAGE_BTN_BASE}px`);
   const { home, jobs, sectionsByJob } = DATA;
 
   root.innerHTML = `
@@ -123,6 +127,8 @@ function notionEmbedHtml(url) {
 
 
 function renderJob(root, jobSlug) {
+  document.documentElement.style.setProperty('--home-jobbtn-font', `${HOME_JOBBTN_BASE}px`);
+document.documentElement.style.setProperty('--jobpage-btn-font', `${JOBPAGE_BTN_BASE}px`);
   const { jobs, sectionsByJob } = DATA;
   const job = jobs.find(j => slug(j.name) === jobSlug);
   if (!job) return renderNotFound(root);
