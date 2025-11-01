@@ -314,3 +314,11 @@ h1.site-title {
 
 /* Optional: if you ever see a tiny horizontal scroll on some browsers */
 html, body { overflow-x: hidden; }
+
+/* Center the job buttons inside the full-bleed bar */
+.jobs-bar .jobs-wrap{
+  display: flex;        /* if it's already flex, this just reaffirms it */
+  flex-wrap: wrap;      /* keep wrapping on smaller screens */
+  justify-content: center;  /* <-- the centering */
+  gap: 12px;            /* keep your spacing tidy (match your current gap if different) */
+}
