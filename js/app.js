@@ -62,7 +62,7 @@ function renderHome(root) {
 
       <p class="p">${applyMarkup(home.intro1, P_BASE, BUMP)}</p>
       <p class="p">${applyMarkup(home.intro2, P_BASE, BUMP)}</p>
-
+    <div class="jobs-bar">
       <div class="jobs-wrap">
         ${jobs.map(job => {
           const items = sectionsByJob[job.name] || [];
@@ -82,6 +82,7 @@ function renderHome(root) {
           `;
         }).join('')}
       </div>
+     </div> 
     </div>
   `;
 
