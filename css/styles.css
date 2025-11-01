@@ -301,3 +301,16 @@ h1.site-title {
 .ntn-color.ntn-purple-background { background: #f3f0ff; }
 .ntn-color.ntn-pink-background { background: #fff0f6; }
 .ntn-color.ntn-gray-background { background: #f1f3f5; }
+
+/* Full-bleed bar that spans the entire viewport width */
+.jobs-bar{
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%); /* centers the 100vw box across the viewport */
+  padding: 12px 16px;          /* keep some side breathing room */
+  box-sizing: border-box;
+}
+
+/* Optional: if you ever see a tiny horizontal scroll on some browsers */
+html, body { overflow-x: hidden; }
