@@ -99,6 +99,49 @@ document.documentElement.style.setProperty('--jobpage-btn-font', `${JOBPAGE_BTN_
       location.hash = `#/job/${jobSlug}`;
     });
   });
+  bindJobMenuGuards(root);
+}
+
+function bindJobMenuGuards(root) {
+  root.querySelectorAll('.job-btn').forEach(btn => {
+    const menu = btn.querySelector('.job-menu');
+    if (!menu) return;
+
+    btn.addEventListener('mouseenter', () => {
+      // Reset to centered so we measure a neutral state
+      menu.classList.remove('align-left','align-right');
+      menu.classList.add('align-center');
+
+      // Ensure it's measurable even if CSS is controlling display
+      const prevDisplay = menu.style.display;
+      menu.style.display = 'block';
+
+      const rect = menu.getBoundingClientRect();
+      const pad = 8; // safe gutter
+      const overflowLeft  = rect.left   < pad;
+      const overflowRight = rect.right  > (window.innerWidth - pad);
+
+      if (overflowRight && !overflowLeft) {
+        menu.classList.remove('align-center','align-left');
+        menu.classList.add('align-right');
+      } else if (overflowLeft && !overflowRight) {
+        menu.classList.remove('align-center','align-right');
+        menu.classList.add('align-left');
+      } else {
+        menu.classList.remove('align-left','align-right');
+        menu.classList.add('align-center');
+      }
+
+      // restore inline display so CSS hover still drives visibility
+      menu.style.display = prevDisplay;
+    });
+
+    // optional: clean up on leave
+    btn.addEventListener('mouseleave', () => {
+      menu.classList.remove('align-left','align-right');
+      menu.classList.add('align-center');
+    });
+  });
 }
 
 function notionEmbedHtml(url) {
