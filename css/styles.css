@@ -12,7 +12,7 @@
 html, body {
   margin: 0;
   padding: 0;
-  font-family: "Comic Sans MS", "Comic Sans", cursive, system-ui;
+  font-family: "Comic Neue", "Comic Sans MS", "Comic Sans", cursive;
   color: var(--text);
   background: #fff;
 }
